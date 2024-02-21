@@ -206,6 +206,13 @@ function draw() {
       } else {
         mode = 2;
       }
+      if (y < height - 11) {
+        ySpeed += gravity;
+      } else {
+        // När figuren når marken, nollställ y-hastigheten
+        ySpeed = 0;
+        mode = 3;
+      }
     }
   }
 
