@@ -1,26 +1,27 @@
-let x = 250;
-let y = 10;
-let ySpeed = 0;
-let xSpeed = 0;
-const gravity = 0.015;
-const xAcceleration = 3;
-const xDeceleration = 3;
+let x = 250; // x-position for the robot
+let y = 10; // y-position for the robot
+let ySpeed = 0; //
+let xSpeed = 0; //
+const gravity = 0.015; // gravity
+const xAcceleration = 3; // acceleration when the right/left arrows are pressed
+const xDeceleration = 3; // deceleration acceleration when the right/left arrows are release
 let mode = 0;
 let fuelvar = 100;
-let fuelDecrease = 0.5;
-let flames = false;
-let landingFace = false;
-let img;
+let fuelDecrease = 0.5; // Reduction Speed ​​for "Robot fuel"
+let flames = false; // variable to keep track of whether flames should show or not
+let landingFace = false; //variable to keep track of whether robot landing face should show or not
+let img; //variable for img
 
 let ground = {
-  x: 175,
+  //Landing platform
+  x: 425,
   y: 1175,
 };
 
 let starX = [];
 let starY = [];
 let starAlpha = [];
-let arrowDownPressed = false;
+let arrowDownPressed = false; // Flagga för att indikera om piltangenten ArrowDown hålls ned
 
 function preload() {
   img = loadImage("image/robot.png");
@@ -29,8 +30,8 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(500, 850);
-
+  createCanvas(800, 850);
+  //cite from Garrit starts Video
   for (let i = 0; i < 500; i++) {
     const x = Math.floor(Math.random() * width);
     const y = Math.floor(Math.random() * height);
@@ -43,18 +44,19 @@ function setup() {
 }
 
 function draw() {
-  // Draw stars as background
+  //start screen
   if (mode == 0) {
     background(0);
     fill(255, 0, 0);
-    textSize(20);
+    textSize(25);
     textAlign(CENTER, CENTER);
-    text("Press enter to start", 250, 250);
-    image(img, 50, 140, 400, 100);
+    text("Press enter to start", 400, 320);
+    image(img, 50, 200, 700, 120);
   } else if (mode == 1) {
+    //game starts
     drawStars();
     push();
-    translate(-2, -400); //-400 at start
+    translate(150, -400);
 
     // Draw the robot and other elements...
     stroke(0);
@@ -77,7 +79,7 @@ function draw() {
     fill(180, 180, 200);
     ellipse(x, y + 205, 105);
     // face
-    fill(3, 255, 74);
+    fill(199, 201, 200);
     rect(x - 35, y + 180, 70);
 
     // Chest body color
@@ -148,10 +150,11 @@ function draw() {
     ellipse(x + 40, y + 255, 20);
     noFill();
 
+    //The Planet surface
     fill(153, 79, 5);
-    rect(0, 1175, 500, 500);
+    rect(-150, 1175, 800, 100);
     noFill();
-
+    //Landing platform
     fill(194, 188, 188);
     rect(ground.x, ground.y, 150, 15);
 
@@ -185,77 +188,87 @@ function draw() {
     }
 
     pop();
-    textSize(24);
+    textSize(30);
 
-    text("Robot Fuel: " + fuelvar.toFixed(0), 250, 30);
+    text("Robot Fuel: " + fuelvar.toFixed(0), 400, 30); // Bränslet visas med två decimaler
 
+    // Update the robots position based on the speed.
     y += ySpeed;
     x += xSpeed;
 
+    // Decreasing the fuel if key ArrowDown is pressed and fuel is greater than 0.
     if (arrowDownPressed && fuelvar > 0) {
       fuelvar -= fuelDecrease;
       ySpeed = -0.5;
     }
 
+    // Add gravity if the robot is not on the ground.
     if (y < height - 12) {
+      //12
       ySpeed += gravity;
     } else {
+      // When the robot hit the ground, y-speed reset to 0.
       ySpeed = 0;
       if (x < ground.x || x > ground.x + 150) {
-        mode = 3;
+        mode = 3; //If robot dont land inside the landing platform "ground.x" you crashed
       } else {
         mode = 2;
       }
       if (y < height - 11) {
+        //11
         ySpeed += gravity;
       } else {
-        // När figuren når marken, nollställ y-hastigheten
+        // When the robot hit the ground, y-speed reset to 0.
         ySpeed = 0;
         mode = 3;
       }
     }
   }
 
+  //Restarting the Game
   if (mode == 2) {
-    image(img2, 50, 140, 400, 100);
-
-    text("Press R to restart", 250, 120);
+    image(img2, 50, 170, 700, 120);
+    //text("Perfect landing! Good job", 250, 80);
+    text("Press enter to play again", 400, 320);
   }
 
   if (mode == 3) {
-    image(img3, 50, 140, 400, 100);
-
-    text("Press R to restart", 250, 120);
+    image(img3, 50, 170, 700, 120);
+    //text("You Crashed, try again!", 250, 80);
+    text("Press enter to play again", 400, 320);
   }
 }
 
 function keyPressed() {
   if (keyCode === ENTER && mode === 0) {
     mode = 1;
-    ySpeed = 10;
+    ySpeed = 10; // RObot falling when the game starts
   } else if (key === "ArrowDown") {
-    arrowDownPressed = true;
-    flames = true;
-    landingFace = true;
+    arrowDownPressed = true; // When ArrowDown is pressed, flames and Landingface will show
+    flames = true; //show flames
+    landingFace = true; // show landing face
   } else if (keyCode === RIGHT_ARROW) {
+    // controll the robots x position with key RightArrow and LeftArrow
     xSpeed = xAcceleration;
   } else if (keyCode === LEFT_ARROW) {
     xSpeed = -xAcceleration;
-  } else if (key === "r" && (mode === 2 || mode === 3)) {
+  } else if (keyCode === ENTER && (mode === 2 || mode === 3)) {
+    // After game results "perfect Landing" or "you crashed" amd press ENTER, game will resets
     resetGame();
   }
 }
 
 function keyReleased() {
   if (key === "ArrowDown") {
-    arrowDownPressed = false;
-    flames = false;
-    landingFace = false;
+    arrowDownPressed = false; // When ArrowDown is released. the flame and landing face disapear
+    flames = false; //Hide flames
+    landingFace = false; //Hide Landing face
   } else if (keyCode === RIGHT_ARROW || keyCode === LEFT_ARROW) {
-    xSpeed = 0;
+    xSpeed = 0; // When Arrow left and right release, the x-speed resets
   }
 }
 
+//Resetting the game to deafult, and landing platform "ground x" get a random position
 function resetGame() {
   mode = 0;
   x = 250;
@@ -266,10 +279,10 @@ function resetGame() {
   flames = false;
   ground.x = random(50, 350);
 }
-
+//Background stars
 function drawStars() {
   background(0, 0, 0);
-
+  //cite from Garrit starts Video
   fill(255, 255, 255);
   for (let index in starX) {
     fill(255, 255, 255, Math.abs(Math.sin(starAlpha[index])) * 255);
