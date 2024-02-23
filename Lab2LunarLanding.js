@@ -1,3 +1,15 @@
+//Foundations of Programming
+//Lab 2: Lunar Lander
+//Alfred Bergström NMD23
+//Jönköping University
+
+//This game is a Lunar Landing game, This version is called "Robotic Landning"
+//To complete the game you must land within the landing platform
+//Controll the robot with LeftArrow and RightArrow key for x-positions.
+//And adjust the y-speed by pressing DownArrow key so you can land gentle.
+//Do you land outside the landing platform or landing to fast, you will crash.
+//press enter for start the game and also for restart the game "play again"
+
 let x = 250; // x-position for the robot
 let y = 10; // y-position for the robot
 let ySpeed = 0; //
@@ -21,7 +33,7 @@ let ground = {
 let starX = [];
 let starY = [];
 let starAlpha = [];
-let arrowDownPressed = false; // Flagga för att indikera om piltangenten ArrowDown hålls ned
+let arrowDownPressed = false;
 
 function preload() {
   img = loadImage("image/robot.png");
@@ -31,7 +43,7 @@ function preload() {
 
 function setup() {
   createCanvas(800, 850);
-  //cite from Garrit starts Video
+  //cite from Garrit stars Video
   for (let i = 0; i < 500; i++) {
     const x = Math.floor(Math.random() * width);
     const y = Math.floor(Math.random() * height);
@@ -64,8 +76,8 @@ function draw() {
 
     if (flames) {
       fill(255, 0, 0);
-      triangle(x - 45, y + 300, x - 35, y + 300, x - 40, y + 380); // Vänster arm
-      triangle(x + 35, y + 300, x + 45, y + 300, x + 40, y + 380); // Höger arm
+      triangle(x - 45, y + 300, x - 35, y + 300, x - 40, y + 380); // left arm
+      triangle(x + 35, y + 300, x + 45, y + 300, x + 40, y + 380); // right arm
 
       triangle(x - 15, y + 300, x - 5, y + 300, x - 10, y + 430);
       triangle(x + 5, y + 300, x + 15, y + 300, x + 10, y + 430);
@@ -190,7 +202,7 @@ function draw() {
     pop();
     textSize(30);
 
-    text("Robot Fuel: " + fuelvar.toFixed(0), 400, 30); // Bränslet visas med två decimaler
+    text("Robot Fuel: " + fuelvar.toFixed(0), 400, 30); // fuel
 
     // Update the robots position based on the speed.
     y += ySpeed;
@@ -282,7 +294,7 @@ function resetGame() {
 //Background stars
 function drawStars() {
   background(0, 0, 0);
-  //cite from Garrit starts Video
+  //cite from Garrit stars Video
   fill(255, 255, 255);
   for (let index in starX) {
     fill(255, 255, 255, Math.abs(Math.sin(starAlpha[index])) * 255);
