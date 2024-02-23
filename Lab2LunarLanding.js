@@ -36,14 +36,14 @@ let starAlpha = [];
 let arrowDownPressed = false;
 
 function preload() {
-  img = loadImage("image/robot.png");
-  img2 = loadImage("image/Perfect Landning.png");
-  img3 = loadImage("image/YouCrashed.png");
+  img = loadImage("image/robot.png"); // Start screen "Robotic Landing" font image.
+  img2 = loadImage("image/Perfect Landning.png"); // Perfect landing font image.
+  img3 = loadImage("image/YouCrashed.png"); // you crashed font image.
 }
 
 function setup() {
   createCanvas(800, 850);
-  //cite from Garrit stars Video
+  //cite from Garrit stars Video, just adding more stars.
   for (let i = 0; i < 500; i++) {
     const x = Math.floor(Math.random() * width);
     const y = Math.floor(Math.random() * height);
