@@ -1,0 +1,21 @@
+/* styles.css */
+html,
+body {
+  background-color: rgb(0, 0, 0);
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  zoom: 91%;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
