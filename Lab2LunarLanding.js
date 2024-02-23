@@ -50,7 +50,10 @@ function draw() {
     fill(255, 0, 0);
     textSize(25);
     textAlign(CENTER, CENTER);
-    text("Press enter to start", 400, 320);
+    text("Press enter to start", 400, 400);
+    fill(255, 0, 0);
+    textSize(20);
+    text("Land the robot gentle on the landing platform", 400, 350);
     image(img, 50, 200, 700, 120);
   } else if (mode == 1) {
     //game starts
